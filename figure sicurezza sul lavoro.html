@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sito dedicato alle figure della sicurezza sul lavoro secondo il D.Lgs. 81/08: scopri i ruoli, gli obblighi e la formazione per la prevenzione e protezione nei luoghi di lavoro.">
+    <meta name="keywords" content="sicurezza sul lavoro, D.Lgs. 81/08, datore di lavoro, RSPP, RLS, medico competente, quiz sicurezza">
+    <title>Figure della Sicurezza sul Lavoro - D.Lgs. 81/08</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0d1b2a, #1b263b);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            position: relative;
+            font-size: 18px;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/circuit-pattern.png');
+            opacity: 0.05;
+            z-index: -1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+        }
+        header {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3.5em;
+            color: #00d4ff;
+            text-shadow: 0 0 10px #00d4ff;
+            animation: glow 2s infinite alternate;
+        }
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.2em;
+            color: #ecf0f1;
+        }
+        nav {
+            background: #34495e;
+            padding: 10px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #3498db;
+        }
+        section {
+            background: rgba(20, 40, 60, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            margin-bottom: 50px;
+            animation: fadeIn 1.5s ease-in;
+            border: 1px solid #00d4ff;
+        }
+        section h2 {
+            color: #00d4ff;
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 0 5px #00d4ff;
+        }
+        section h3 {
+            color: #00d4ff;
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        section p, section ul {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        section ul {
+            list-style-type: disc;
+            padding-left: 40px;
+        }
+        section ul ul {
+            list-style-type: circle;
+            padding-left: 30px;
+        }
+        /* Stile per il quiz */
+        .quiz-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .quiz-selector {
+            margin-bottom: 20px;
+        }
+        .quiz-selector select {
+            padding: 10px;
+            font-size: 1.2em;
+            background: rgba(30, 50, 70, 0.95);
+            color: #e0e0e0;
+            border: 1px solid #00d4ff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .quiz-timer {
+            font-size: 1.5em;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        .quiz-balls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .quiz-ball {
+            width: 40px;
+            height: 40px;
+            background: rgba(30, 50, 70, 0.95);
+            border: 2px solid #00d4ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            color: #e0e0e0;
+            transition: background 0.3s ease;
+        }
+        .quiz-ball.correct {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        .quiz-ball.incorrect {
+            background: #ff0000;
+            color: #000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+        .quiz-question {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+        .quiz-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .quiz-option {
+            background: rgba(30, 50, 70, 0.95);
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 1px solid #00d4ff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 1.1em;
+        }
+        .quiz-option:hover {
+            background: rgba(0, 212, 255, 0.3);
+        }
+        .quiz-feedback {
+            margin-top: 20px;
+            font-size: 1.2em;
+            display: none;
+        }
+        .correct {
+            color: #00ff00;
+        }
+        .incorrect {
+            color: #ff0000;
+        }
+        .quiz-result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .retry-button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .retry-button:hover {
+            background: #3498db;
+        }
+        footer {
+            background: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        footer p {
+            margin: 0;
+            font-size: 1em;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #00d4ff, 0 0 10px #00d4ff; }
+            to { text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff; }
+        }
+        @media (max-width: 768px) {
+            nav a {
+                display: block;
+                margin: 10px 0;
+            }
+            section {
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 2.5em;
+            }
+            header p {
+                font-size: 1em;
+            }
+            .quiz-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .quiz-ball {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Figure della Sicurezza sul Lavoro</h1>
+        <p>Prevenzione e Protezione secondo il D.Lgs. 81/08</p>
+    </header>
+
+    <nav>
+        <a href="#introduzione">Introduzione</a>
+        <a href="#figure">Figure</a>
+        <a href="#quiz">Quiz</a>
+    </nav>
+
+    <div class="container">
+        <section id="introduzione">
+            <h2>Introduzione al D.Lgs. 81/08</h2>
+            <p>Il <strong>Decreto Legislativo 81/08</strong> ha come obiettivo principale l’estensione del numero di persone coinvolte nel sistema di prevenzione e protezione, per controllare più efficacemente gli ambienti e le fasi di lavoro. Tutti i soggetti presenti nel luogo di lavoro, dal datore di lavoro al lavoratore, sono coinvolti e devono ricevere una formazione adeguata al loro ruolo specifico.</p>
+        </section>
+
+        <section id="figure">
+            <h2>Le Figure Previste dal D.Lgs. 81/08</h2>
+            <h3>Il Datore di Lavoro</h3>
+            <p>È il titolare del rapporto di lavoro o chi ha la responsabilità dell’organizzazione, esercitando poteri decisionali e di spesa. Ha l’obbligo di valutare i rischi, fornire DPI, garantire formazione, nominare il medico competente e altro (art. 18). Obblighi non delegabili (art. 17): valutazione dei rischi con elaborazione del DVR e designazione dell’RSPP.</p>
+
+            <h3>Il Dirigente</h3>
+            <p>Attua le direttive del datore di lavoro, organizzando e vigilando sulle attività lavorative. Ha gli stessi obblighi del datore di lavoro (esclusi quelli non delegabili), elencati nell’art. 18.</p>
+
+            <h3>Responsabile del Servizio di Prevenzione e Protezione (RSPP)</h3>
+            <p>Persona con requisiti professionali (art. 32) designata dal datore di lavoro per coordinare il servizio di prevenzione e protezione, con capacità adeguate ai rischi presenti.</p>
+
+            <h3>Addetto al Servizio di Prevenzione e Protezione (ASPP)</h3>
+            <p>Collabora con l’RSPP, designato se necessario, con requisiti professionali (art. 32). Il numero di ASPP deve essere sufficiente in base alle caratteristiche dell’impresa (art. 31).</p>
+
+            <h3>Il Preposto</h3>
+            <p>Sovrintende alle attività lavorative, garantendo l’attuazione delle direttive e controllandone l’esecuzione. Richiede formazione specifica (art. 19).</p>
+
+            <h3>Rappresentante dei Lavoratori per la Sicurezza (RLS)</h3>
+            <p>Eletto o designato per rappresentare i lavoratori su salute e sicurezza. Ha accesso ai luoghi di lavoro, è consultato sulla valutazione dei rischi e sulla formazione (art. 50).</p>
+
+            <h3>Il Medico Competente</h3>
+            <p>Medico con requisiti (art. 38) che collabora alla valutazione dei rischi ed effettua la sorveglianza sanitaria (visite preventive, periodiche, su richiesta o per cambio mansione).</p>
+
+            <h3>Addetto al Primo Soccorso</h3>
+            <p>Incaricato dal datore di lavoro per il primo intervento e l’attivazione del pronto soccorso. Formazione definita dal DM 15/07/2003, n. 388, in base a rischi e numero di lavoratori.</p>
+
+            <h3>Addetto al Servizio Antincendio</h3>
+            <p>Designato per prevenzione e lotta antincendio. Formazione definita dal DM 10/03/1998, con durata e contenuti legati al rischio dell’attività.</p>
+
+            <h3>Il Lavoratore</h3>
+            <p>Persona che svolge un’attività lavorativa per un datore di lavoro, con obblighi di prendersi cura della propria salute e sicurezza e di quella altrui (art. 20).</p>
+        </section>
+
+        <section id="quiz">
+            <h2>Quiz: Testa le Tue Conoscenze sulla Sicurezza</h2>
+            <p>Seleziona un quiz qui sotto e rispondi alle 30 domande entro 30 minuti. Le palline si illumineranno man mano che rispondi, e alla fine vedrai il tuo risultato!</p>
+            <div class="quiz-container">
+                <div class="quiz-selector">
+                    <select id="quiz-select" onchange="selectQuiz()">
+                        <option value="0">Seleziona un Quiz</option>
+                        <option value="1">Quiz 1</option>
+                        <option value="2">Quiz 2</option>
+                        <option value="3">Quiz 3</option>
+                        <option value="4">Quiz 4</option>
+                        <option value="5">Quiz 5</option>
+                    </select>
+                </div>
+                <div class="quiz-timer" id="quiz-timer" style="display: none;">Tempo rimanente: 30:00</div>
+                <div class="quiz-balls" id="quiz-balls" style="display: none;"></div>
+                <div class="quiz-question" id="quiz-question"></div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <div class="quiz-feedback" id="quiz-feedback"></div>
+                <div class="quiz-result" id="quiz-result"></div>
+                <button class="retry-button" id="retry-button" style="display: none;">Riprova</button>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Figure della Sicurezza sul Lavoro - Tutti i diritti riservati</p>
+    </footer>
+
+    <script>
+        const allQuestions = [
+            // Quiz 1
+            [
+                { question: "Qual è un obiettivo principale del D.Lgs. 81/08?", options: ["Estendere la prevenzione", "Ridurre i lavoratori", "Aumentare i costi", "Eliminare la formazione"], correct: "Estendere la prevenzione" },
+                { question: "Chi è il datore di lavoro secondo il D.Lgs. 81/08?", options: ["Chi ha poteri decisionali", "Un lavoratore", "Un cliente", "Un consulente"], correct: "Chi ha poteri decisionali" },
+                { question: "Qual è un obbligo non delegabile del datore di lavoro?", options: ["Valutazione dei rischi", "Formazione dei lavoratori", "Fornire DPI", "Nominare il medico"], correct: "Valutazione dei rischi" },
+                { question: "Cosa deve fare il datore di lavoro (art. 18)?", options: ["Fornire DPI", "Eseguire interventi medici", "Progettare edifici", "Gestire le finanze"], correct: "Fornire DPI" },
+                { question: "Chi attua le direttive del datore di lavoro?", options: ["Il dirigente", "Il lavoratore", "Il medico", "Il cliente"], correct: "Il dirigente" },
+                { question: "Chi coordina il servizio di prevenzione?", options: ["RSPP", "RLS", "ASPP", "Preposto"], correct: "RSPP" },
+                { question: "Quali requisiti deve avere l’RSPP?", options: ["Art. 32", "Art. 18", "Art. 50", "Art. 20"], correct: "Art. 32" },
+                { question: "Chi collabora con l’RSPP?", options: ["ASPP", "RLS", "Preposto", "Medico"], correct: "ASPP" },
+                { question: "Chi sovrintende alle attività lavorative?", options: ["Preposto", "RSPP", "RLS", "Dirigente"], correct: "Preposto" },
+                { question: "Quale articolo definisce gli obblighi del preposto?", options: ["Art. 19", "Art. 18", "Art. 20", "Art. 50"], correct: "Art. 19" },
+                { question: "Chi rappresenta i lavoratori per la sicurezza?", options: ["RLS", "RSPP", "ASPP", "Preposto"], correct: "RLS" },
+                { question: "Quale articolo definisce le attribuzioni dell’RLS?", options: ["Art. 50", "Art. 18", "Art. 32", "Art. 20"], correct: "Art. 50" },
+                { question: "Chi effettua la sorveglianza sanitaria?", options: ["Medico competente", "RSPP", "RLS", "Preposto"], correct: "Medico competente" },
+                { question: "Quale articolo definisce i requisiti del medico competente?", options: ["Art. 38", "Art. 32", "Art. 18", "Art. 50"], correct: "Art. 38" },
+                { question: "Chi è incaricato del primo soccorso?", options: ["Addetto al primo soccorso", "RSPP", "RLS", "Medico"], correct: "Addetto al primo soccorso" },
+                { question: "Quale decreto definisce la formazione per il primo soccorso?", options: ["DM 15/07/2003", "DM 10/03/1998", "D.Lgs. 81/08", "Art. 18"], correct: "DM 15/07/2003" },
+                { question: "Chi gestisce la prevenzione antincendio?", options: ["Addetto antincendio", "RSPP", "RLS", "Preposto"], correct: "Addetto antincendio" },
+                { question: "Quale decreto definisce la formazione antincendio?", options: ["DM 10/03/1998", "DM 15/07/2003", "D.Lgs. 81/08", "Art. 32"], correct: "DM 10/03/1998" },
+                { question: "Chi è il lavoratore secondo il D.Lgs. 81/08?", options: ["Chi svolge attività lavorativa", "Un cliente", "Un consulente", "Un visitatore"], correct: "Chi svolge attività lavorativa" },
+                { question: "Quale articolo definisce gli obblighi del lavoratore?", options: ["Art. 20", "Art. 18", "Art. 19", "Art. 50"], correct: "Art. 20" },
+                { question: "Cosa deve designare il datore di lavoro (art. 17)?", options: ["RSPP", "RLS", "ASPP", "Preposto"], correct: "RSPP" },
+                { question: "Chi vigila sulle attività lavorative?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Qual è un compito dell’RLS (art. 50)?", options: ["Essere consultato sui rischi", "Formare i lavoratori", "Fornire DPI", "Eseguire visite"], correct: "Essere consultato sui rischi" },
+                { question: "Qual è una visita del medico competente?", options: ["Periodica", "Finanziaria", "Progettuale", "Casuale"], correct: "Periodica" },
+                { question: "Cosa controlla il preposto?", options: ["Esecuzione delle direttive", "Progettazione", "Finanze", "Marketing"], correct: "Esecuzione delle direttive" },
+                { question: "Qual è un obbligo del lavoratore (art. 20)?", options: ["Prendersi cura della sicurezza", "Fornire DPI", "Valutare i rischi", "Nominare l’RSPP"], correct: "Prendersi cura della sicurezza" },
+                { question: "Chi deve essere formato secondo il D.Lgs. 81/08?", options: ["Tutti i soggetti", "Solo il datore", "Solo i lavoratori", "Solo i medici"], correct: "Tutti i soggetti" },
+                { question: "Cosa deve garantire il datore di lavoro?", options: ["Formazione adeguata", "Profitto", "Progettazione", "Vendite"], correct: "Formazione adeguata" },
+                { question: "Chi ha obblighi simili al datore di lavoro?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Qual è un compito dell’addetto antincendio?", options: ["Lotta antincendio", "Valutazione rischi", "Sorveglianza sanitaria", "Formazione RSPP"], correct: "Lotta antincendio" }
+            ],
+            // Quiz 2
+            [
+                { question: "Quale decreto regola la sicurezza sul lavoro?", options: ["D.Lgs. 81/08", "D.Lgs. 50/06", "DM 10/03/1998", "Art. 18"], correct: "D.Lgs. 81/08" },
+                { question: "Chi ha la responsabilità dell’organizzazione?", options: ["Datore di lavoro", "RLS", "Preposto", "ASPP"], correct: "Datore di lavoro" },
+                { question: "Qual è un obbligo non delegabile (art. 17)?", options: ["Designazione RSPP", "Fornire DPI", "Formare i lavoratori", "Nominare il medico"], correct: "Designazione RSPP" },
+                { question: "Cosa valuta il datore di lavoro?", options: ["Tutti i rischi", "Solo i profitti", "Solo i costi", "Solo i clienti"], correct: "Tutti i rischi" },
+                { question: "Chi organizza le attività lavorative?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Chi è designato dal datore per l’RSPP?", options: ["Persona con requisiti", "Un lavoratore", "Un cliente", "Un medico"], correct: "Persona con requisiti" },
+                { question: "Quale articolo regola i requisiti di RSPP e ASPP?", options: ["Art. 32", "Art. 18", "Art. 50", "Art. 20"], correct: "Art. 32" },
+                { question: "Quanti ASPP devono esserci?", options: ["Numero sufficiente", "Sempre uno", "Nessuno", "Due"], correct: "Numero sufficiente" },
+                { question: "Quale figura esercita un potere d’iniziativa?", options: ["Preposto", "RSPP", "RLS", "Dirigente"], correct: "Preposto" },
+                { question: "Chi deve frequentare corsi specifici (art. 19)?", options: ["Preposto", "RSPP", "RLS", "Lavoratore"], correct: "Preposto" },
+                { question: "Chi ha accesso ai luoghi di lavoro (art. 50)?", options: ["RLS", "RSPP", "ASPP", "Preposto"], correct: "RLS" },
+                { question: "Chi collabora alla valutazione dei rischi?", options: ["Medico competente", "RSPP", "RLS", "Preposto"], correct: "Medico competente" },
+                { question: "Quale visita fa il medico su richiesta?", options: ["Su richiesta del lavoratore", "Preventiva", "Periodica", "Casuale"], correct: "Su richiesta del lavoratore" },
+                { question: "Chi attiva il pronto soccorso?", options: ["Addetto al primo soccorso", "RSPP", "RLS", "Medico"], correct: "Addetto al primo soccorso" },
+                { question: "Quale decreto regola i fattori di rischio del primo soccorso?", options: ["DM 15/07/2003", "DM 10/03/1998", "D.Lgs. 81/08", "Art. 18"], correct: "DM 15/07/2003" },
+                { question: "Chi previene gli incendi?", options: ["Addetto antincendio", "RSPP", "RLS", "Preposto"], correct: "Addetto antincendio" },
+                { question: "Quale decreto definisce i rischi antincendio?", options: ["DM 10/03/1998", "DM 15/07/2003", "D.Lgs. 81/08", "Art. 32"], correct: "DM 10/03/1998" },
+                { question: "Chi ha obblighi verso gli altri (art. 20)?", options: ["Lavoratore", "RSPP", "RLS", "Dirigente"], correct: "Lavoratore" },
+                { question: "Quale articolo regola gli obblighi del datore?", options: ["Art. 18", "Art. 20", "Art. 19", "Art. 50"], correct: "Art. 18" },
+                { question: "Cosa elabora il datore di lavoro (art. 28)?", options: ["Documento di valutazione", "Contratti", "Progetti", "Bilanci"], correct: "Documento di valutazione" },
+                { question: "Chi ha gli stessi obblighi del datore (art. 18)?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Qual è un compito dell’RLS?", options: ["Consultazione sulla formazione", "Fornire DPI", "Valutare rischi", "Eseguire visite"], correct: "Consultazione sulla formazione" },
+                { question: "Quando il medico verifica l’idoneità?", options: ["Cambio mansione", "Solo preventiva", "Solo periodica", "Mai"], correct: "Cambio mansione" },
+                { question: "Cosa garantisce il preposto?", options: ["Attuazione direttive", "Progettazione", "Finanze", "Marketing"], correct: "Attuazione direttive" },
+                { question: "Qual è un obbligo del lavoratore?", options: ["Evitare omissioni", "Nominare RSPP", "Valutare rischi", "Fornire DPI"], correct: "Evitare omissioni" },
+                { question: "Chi controlla gli ambienti di lavoro?", options: ["Tutti i soggetti", "Solo il datore", "Solo i lavoratori", "Solo i medici"], correct: "Tutti i soggetti" },
+                { question: "Cosa nomina il datore di lavoro?", options: ["Medico competente", "Clienti", "Fornitori", "Progettisti"], correct: "Medico competente" },
+                { question: "Chi deve essere adeguatamente formato?", options: ["Tutte le figure", "Solo RSPP", "Solo RLS", "Solo medici"], correct: "Tutte le figure" },
+                { question: "Qual è un compito dell’addetto al primo soccorso?", options: ["Primo intervento", "Valutazione rischi", "Sorveglianza sanitaria", "Formazione RSPP"], correct: "Primo intervento" },
+                { question: "Qual è un compito dell’addetto antincendio?", options: ["Prevenzione incendi", "Valutazione rischi", "Sorveglianza sanitaria", "Formazione RSPP"], correct: "Prevenzione incendi" }
+            ],
+            // Quiz 3
+            [
+                { question: "Quale legge estende la prevenzione sul lavoro?", options: ["D.Lgs. 81/08", "D.Lgs. 50/06", "DM 10/03/1998", "Art. 18"], correct: "D.Lgs. 81/08" },
+                { question: "Chi è il titolare del rapporto di lavoro?", options: ["Datore di lavoro", "RLS", "Preposto", "ASPP"], correct: "Datore di lavoro" },
+                { question: "Quale articolo regola gli obblighi non delegabili?", options: ["Art. 17", "Art. 18", "Art. 20", "Art. 50"], correct: "Art. 17" },
+                { question: "Cosa fornisce il datore di lavoro ai lavoratori?", options: ["DPI", "Progetti", "Contratti", "Bilanci"], correct: "DPI" },
+                { question: "Chi vigila sulle direttive del datore?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Chi ha capacità adeguate ai rischi?", options: ["RSPP", "RLS", "ASPP", "Preposto"], correct: "RSPP" },
+                { question: "Quale articolo regola il numero di ASPP?", options: ["Art. 31", "Art. 32", "Art. 18", "Art. 50"], correct: "Art. 31" },
+                { question: "Chi è designato se necessario con l’RSPP?", options: ["ASPP", "RLS", "Preposto", "Medico"], correct: "ASPP" },
+                { question: "Chi controlla i lavoratori?", options: ["Preposto", "RSPP", "RLS", "Dirigente"], correct: "Preposto" },
+                { question: "Quale figura è eletta dai lavoratori?", options: ["RLS", "RSPP", "ASPP", "Preposto"], correct: "RLS" },
+                { question: "Chi è consultato sulla valutazione dei rischi?", options: ["RLS", "RSPP", "ASPP", "Preposto"], correct: "RLS" },
+                { question: "Quale visita è preventiva?", options: ["Medico competente", "RSPP", "RLS", "Preposto"], correct: "Medico competente" },
+                { question: "Quale decreto regola la formazione antincendio?", options: ["DM 10/03/1998", "DM 15/07/2003", "D.Lgs. 81/08", "Art. 32"], correct: "DM 10/03/1998" },
+                { question: "Chi è escluso dalla definizione di lavoratore?", options: ["Addetti domestici", "RSPP", "RLS", "Dirigente"], correct: "Addetti domestici" },
+                { question: "Quale articolo definisce il medico competente?", options: ["Art. 38", "Art. 32", "Art. 18", "Art. 50"], correct: "Art. 38" },
+                { question: "Chi interviene in caso di emergenza?", options: ["Addetto al primo soccorso", "RSPP", "RLS", "Medico"], correct: "Addetto al primo soccorso" },
+                { question: "Quale decreto regola i requisiti del primo soccorso?", options: ["DM 15/07/2003", "DM 10/03/1998", "D.Lgs. 81/08", "Art. 18"], correct: "DM 15/07/2003" },
+                { question: "Chi lotta contro gli incendi?", options: ["Addetto antincendio", "RSPP", "RLS", "Preposto"], correct: "Addetto antincendio" },
+                { question: "Quale articolo regola gli obblighi del lavoratore?", options: ["Art. 20", "Art. 18", "Art. 19", "Art. 50"], correct: "Art. 20" },
+                { question: "Cosa deve elaborare il datore (art. 17)?", options: ["Documento di valutazione", "Contratti", "Progetti", "Bilanci"], correct: "Documento di valutazione" },
+                { question: "Chi organizza le attività (art. 18)?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Qual è un compito dell’RLS (art. 50)?", options: ["Accesso ai luoghi di lavoro", "Fornire DPI", "Valutare rischi", "Eseguire visite"], correct: "Accesso ai luoghi di lavoro" },
+                { question: "Quando il medico fa una visita periodica?", options: ["Regolarmente", "Solo su richiesta", "Solo preventiva", "Mai"], correct: "Regolarmente" },
+                { question: "Cosa fa il preposto?", options: ["Controlla l’esecuzione", "Progetta edifici", "Gestisce finanze", "Forma RSPP"], correct: "Controlla l’esecuzione" },
+                { question: "Qual è un obbligo del lavoratore (art. 20)?", options: ["Proteggere gli altri", "Nominare RSPP", "Valutare rischi", "Fornire DPI"], correct: "Proteggere gli altri" },
+                { question: "Chi deve controllare le fasi di lavoro?", options: ["Tutti i soggetti", "Solo il datore", "Solo i lavoratori", "Solo i medici"], correct: "Tutti i soggetti" },
+                { question: "Cosa garantisce il datore ai lavoratori?", options: ["Formazione", "Profitto", "Progetti", "Vendite"], correct: "Formazione" },
+                { question: "Chi ha obblighi non delegabili?", options: ["Datore di lavoro", "RSPP", "RLS", "Lavoratore"], correct: "Datore di lavoro" },
+                { question: "Qual è un compito dell’addetto al primo soccorso?", options: ["Attivazione pronto soccorso", "Valutazione rischi", "Sorveglianza sanitaria", "Formazione RSPP"], correct: "Attivazione pronto soccorso" },
+                { question: "Qual è un compito dell’addetto antincendio?", options: ["Prevenzione incendi", "Valutazione rischi", "Sorveglianza sanitaria", "Formazione RSPP"], correct: "Prevenzione incendi" }
+            ],
+            // Quiz 4
+            [
+                { question: "Quale decreto è noto come Testo Unico sulla sicurezza?", options: ["D.Lgs. 81/08", "D.Lgs. 50/06", "DM 10/03/1998", "Art. 18"], correct: "D.Lgs. 81/08" },
+                { question: "Chi esercita i poteri di spesa?", options: ["Datore di lavoro", "RLS", "Preposto", "ASPP"], correct: "Datore di lavoro" },
+                { question: "Quale articolo definisce il DVR?", options: ["Art. 28", "Art. 18", "Art. 20", "Art. 50"], correct: "Art. 28" },
+                { question: "Cosa deve nominare il datore di lavoro?", options: ["Medico competente", "Clienti", "Fornitori", "Progettisti"], correct: "Medico competente" },
+                { question: "Chi segue le direttive del datore?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Chi è designato per la prevenzione?", options: ["RSPP", "RLS", "ASPP", "Preposto"], correct: "RSPP" },
+                { question: "Quale articolo regola i requisiti dell’ASPP?", options: ["Art. 32", "Art. 18", "Art. 50", "Art. 20"], correct: "Art. 32" },
+                { question: "Chi è collaboratore dell’RSPP?", options: ["ASPP", "RLS", "Preposto", "Medico"], correct: "ASPP" },
+                { question: "Chi ha un potere funzionale?", options: ["Preposto", "RSPP", "RLS", "Dirigente"], correct: "Preposto" },
+                { question: "Quale articolo definisce il medico competente?", options: ["Art. 38", "Art. 32", "Art. 18", "Art. 50"], correct: "Art. 38" },
+                { question: "Chi è eletto per la sicurezza?", options: ["RLS", "RSPP", "ASPP", "Preposto"], correct: "RLS" },
+                { question: "Quale articolo regola l’accesso dell’RLS?", options: ["Art. 50", "Art. 18", "Art. 32", "Art. 20"], correct: "Art. 50" },
+                { question: "Chi verifica l’idoneità alla mansione?", options: ["Medico competente", "RSPP", "RLS", "Preposto"], correct: "Medico competente" },
+                { question: "Quale visita è su cambio mansione?", options: ["Cambio mansione", "Preventiva", "Periodica", "Casuale"], correct: "Cambio mansione" },
+                { question: "Chi è incaricato del primo intervento?", options: ["Addetto al primo soccorso", "RSPP", "RLS", "Medico"], correct: "Addetto al primo soccorso" },
+                { question: "Quale decreto regola i rischi del primo soccorso?", options: ["DM 15/07/2003", "DM 10/03/1998", "D.Lgs. 81/08", "Art. 18"], correct: "DM 15/07/2003" },
+                { question: "Chi è designato per gli incendi?", options: ["Addetto antincendio", "RSPP", "RLS", "Preposto"], correct: "Addetto antincendio" },
+                { question: "Quale decreto definisce i contenuti antincendio?", options: ["DM 10/03/1998", "DM 15/07/2003", "D.Lgs. 81/08", "Art. 32"], correct: "DM 10/03/1998" },
+                { question: "Chi svolge attività senza retribuzione?", options: ["Lavoratore", "RSPP", "RLS", "Dirigente"], correct: "Lavoratore" },
+                { question: "Quale articolo regola gli obblighi del preposto?", options: ["Art. 19", "Art. 18", "Art. 20", "Art. 50"], correct: "Art. 19" },
+                { question: "Cosa deve designare il datore (art. 17)?", options: ["RSPP", "Clienti", "Fornitori", "Progettisti"], correct: "RSPP" },
+                { question: "Chi ha obblighi simili al datore?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Qual è un compito dell’RLS?", options: ["Consultazione sui rischi", "Fornire DPI", "Valutare rischi", "Eseguire visite"], correct: "Consultazione sui rischi" },
+                { question: "Quando il medico fa una visita preventiva?", options: ["Prima dell’assunzione", "Solo periodica", "Solo su richiesta", "Mai"], correct: "Prima dell’assunzione" },
+                { question: "Cosa fa il preposto?", options: ["Garantisce direttive", "Progetta edifici", "Gestisce finanze", "Forma RSPP"], correct: "Garantisce direttive" },
+                { question: "Qual è un obbligo del lavoratore?", options: ["Proteggere la salute", "Nominare RSPP", "Valutare rischi", "Fornire DPI"], correct: "Proteggere la salute" },
+                { question: "Chi è coinvolto nella prevenzione?", options: ["Tutti i soggetti", "Solo il datore", "Solo i lavoratori", "Solo i medici"], correct: "Tutti i soggetti" },
+                { question: "Cosa fornisce il datore ai lavoratori?", options: ["DPI adeguati", "Progetti", "Contratti", "Bilanci"], correct: "DPI adeguati" },
+                { question: "Chi deve essere formato adeguatamente?", options: ["Tutte le figure", "Solo RSPP", "Solo RLS", "Solo medici"], correct: "Tutte le figure" },
+                { question: "Qual è un compito dell’addetto antincendio?", options: ["Prevenzione incendi", "Valutazione rischi", "Sorveglianza sanitaria", "Formazione RSPP"], correct: "Prevenzione incendi" }
+            ],
+            // Quiz 5
+            [
+                { question: "Quale decreto regola la sicurezza sul lavoro?", options: ["D.Lgs. 81/08", "D.Lgs. 50/06", "DM 10/03/1998", "Art. 18"], correct: "D.Lgs. 81/08" },
+                { question: "Chi ha poteri decisionali?", options: ["Datore di lavoro", "RLS", "Preposto", "ASPP"], correct: "Datore di lavoro" },
+                { question: "Quale articolo regola il documento di valutazione?", options: ["Art. 28", "Art. 18", "Art. 20", "Art. 50"], correct: "Art. 28" },
+                { question: "Cosa garantisce il datore di lavoro?", options: ["Formazione adeguata", "Progetti", "Contratti", "Bilanci"], correct: "Formazione adeguata" },
+                { question: "Chi attua le direttive organizzative?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Chi coordina la protezione dai rischi?", options: ["RSPP", "RLS", "ASPP", "Preposto"], correct: "RSPP" },
+                { question: "Quale articolo regola i requisiti dell’RSPP?", options: ["Art. 32", "Art. 18", "Art. 50", "Art. 20"], correct: "Art. 32" },
+                { question: "Chi è designato con l’RSPP se necessario?", options: ["ASPP", "RLS", "Preposto", "Medico"], correct: "ASPP" },
+                { question: "Chi sovrintende ai lavoratori?", options: ["Preposto", "RSPP", "RLS", "Dirigente"], correct: "Preposto" },
+                { question: "Quale articolo definisce gli obblighi del preposto?", options: ["Art. 19", "Art. 18", "Art. 20", "Art. 50"], correct: "Art. 19" },
+                { question: "Chi rappresenta i lavoratori?", options: ["RLS", "RSPP", "ASPP", "Preposto"], correct: "RLS" },
+                { question: "Quale articolo regola la consultazione dell’RLS?", options: ["Art. 50", "Art. 18", "Art. 32", "Art. 20"], correct: "Art. 50" },
+                { question: "Chi collabora con il datore per i rischi?", options: ["Medico competente", "RSPP", "RLS", "Preposto"], correct: "Medico competente" },
+                { question: "Quale visita è periodica?", options: ["Medico competente", "RSPP", "RLS", "Preposto"], correct: "Medico competente" },
+                { question: "Chi attiva gli interventi di emergenza?", options: ["Addetto al primo soccorso", "RSPP", "RLS", "Medico"], correct: "Addetto al primo soccorso" },
+                { question: "Quale decreto regola la formazione del primo soccorso?", options: ["DM 15/07/2003", "DM 10/03/1998", "D.Lgs. 81/08", "Art. 18"], correct: "DM 15/07/2003" },
+                { question: "Chi previene gli incendi in azienda?", options: ["Addetto antincendio", "RSPP", "RLS", "Preposto"], correct: "Addetto antincendio" },
+                { question: "Quale decreto regola i corsi antincendio?", options: ["DM 10/03/1998", "DM 15/07/2003", "D.Lgs. 81/08", "Art. 32"], correct: "DM 10/03/1998" },
+                { question: "Chi apprende un mestiere senza retribuzione?", options: ["Lavoratore", "RSPP", "RLS", "Dirigente"], correct: "Lavoratore" },
+                { question: "Quale articolo regola gli obblighi del lavoratore?", options: ["Art. 20", "Art. 18", "Art. 19", "Art. 50"], correct: "Art. 20" },
+                { question: "Cosa deve nominare il datore (art. 17)?", options: ["RSPP", "Clienti", "Fornitori", "Progettisti"], correct: "RSPP" },
+                { question: "Chi vigila sulle attività?", options: ["Dirigente", "RSPP", "RLS", "Lavoratore"], correct: "Dirigente" },
+                { question: "Qual è un compito dell’RLS?", options: ["Consultazione sulla formazione", "Fornire DPI", "Valutare rischi", "Eseguire visite"], correct: "Consultazione sulla formazione" },
+                { question: "Quando il medico fa una visita su richiesta?", options: ["Su richiesta", "Solo preventiva", "Solo periodica", "Mai"], correct: "Su richiesta" },
+                { question: "Cosa controlla il preposto?", options: ["Esecuzione delle direttive", "Progetta edifici", "Gestisce finanze", "Forma RSPP"], correct: "Esecuzione delle direttive" },
+                { question: "Qual è un obbligo del lavoratore?", options: ["Evitare effetti negativi", "Nominare RSPP", "Valutare rischi", "Fornire DPI"], correct: "Evitare effetti negativi" },
+                { question: "Chi è coinvolto nel D.Lgs. 81/08?", options: ["Tutti i soggetti", "Solo il datore", "Solo i lavoratori", "Solo i medici"], correct: "Tutti i soggetti" },
+                { question: "Cosa fornisce il datore ai lavoratori?", options: ["DPI", "Progetti", "Contratti", "Bilanci"], correct: "DPI" },
+                { question: "Chi deve essere formato secondo il ruolo?", options: ["Tutte le figure", "Solo RSPP", "Solo RLS", "Solo medici"], correct: "Tutte le figure" },
+                { question: "Qual è un compito dell’addetto al primo soccorso?", options: ["Primo intervento", "Valutazione rischi", "Sorveglianza sanitaria", "Formazione RSPP"], correct: "Primo intervento" }
+            ]
+        ];
+
+        let currentQuiz = null;
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 30 * 60; // 30 minuti in secondi
+        let timerInterval;
+
+        // Genera le palline numerate
+        const ballsContainer = document.getElementById('quiz-balls');
+        for (let i = 1; i <= 30; i++) {
+            const ball = document.createElement('div');
+            ball.className = 'quiz-ball';
+            ball.id = `ball-${i}`;
+            ball.innerText = i;
+            ballsContainer.appendChild(ball);
+        }
+
+        // Timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('quiz-timer').innerText = `Tempo rimanente: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function selectQuiz() {
+            const quizSelect = document.getElementById('quiz-select');
+            const selectedQuiz = parseInt(quizSelect.value);
+            if (selectedQuiz === 0) {
+                document.getElementById('quiz-timer').style.display = 'none';
+                document.getElementById('quiz-balls').style.display = 'none';
+                document.getElementById('quiz-question').innerText = '';
+                document.getElementById('quiz-options').innerHTML = '';
+                document.getElementById('quiz-feedback').style.display = 'none';
+                document.getElementById('quiz-result').innerHTML = '';
+                document.getElementById('retry-button').style.display = 'none';
+                clearInterval(timerInterval);
+                return;
+            }
+
+            currentQuiz = selectedQuiz - 1;
+            resetQuiz();
+        }
+
+        function loadQuizQuestion() {
+            const questionElement = document.getElementById('quiz-question');
+            const optionsElement = document.getElementById('quiz-options');
+            const feedbackElement = document.getElementById('quiz-feedback');
+            const resultElement = document.getElementById('quiz-result');
+            const retryButton = document.getElementById('retry-button');
+
+            if (currentQuestionIndex >= currentQuestions.length) {
+                endQuiz();
+                return;
+            }
+
+            const currentQuestion = currentQuestions[currentQuestionIndex];
+            questionElement.innerText = `Domanda ${currentQuestionIndex + 1}: ${currentQuestion.question}`;
+            optionsElement.innerHTML = '';
+            feedbackElement.style.display = 'none';
+            resultElement.innerHTML = '';
+            retryButton.style.display = 'none';
+
+            const shuffledOptions = shuffleArray([...currentQuestion.options]);
+            shuffledOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'quiz-option';
+                optionElement.innerText = option;
+                optionElement.addEventListener('click', () => checkAnswer(option, currentQuestion.correct));
+                optionsElement.appendChild(optionElement);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const feedbackElement = document.getElementById('quiz-feedback');
+            feedbackElement.style.display = 'block';
+            const currentBall = document.getElementById(`ball-${currentQuestionIndex + 1}`);
+            if (selected === correct) {
+                currentBall.classList.add('correct');
+                feedbackElement.innerText = 'Corretto! Ottimo lavoro!';
+                feedbackElement.className = 'quiz-feedback correct';
+                score++;
+            } else {
+                currentBall.classList.add('incorrect');
+                feedbackElement.innerText = `Sbagliato. La risposta corretta è: ${correct}.`;
+                feedbackElement.className = 'quiz-feedback incorrect';
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuizQuestion();
+            }, 1500);
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            const questionElement = document.getElementById('quiz-question');
+            const optionsElement = document.getElementById('quiz-options');
+            const feedbackElement = document.getElementById('quiz-feedback');
+            const resultElement = document.getElementById('quiz-result');
+            const timerElement = document.getElementById('quiz-timer');
+            const retryButton = document.getElementById('retry-button');
+
+            questionElement.innerText = 'Quiz Completato!';
+            optionsElement.innerHTML = '';
+            feedbackElement.style.display = 'none';
+            timerElement.style.display = 'none';
+            retryButton.style.display = 'block';
+
+            if (score >= 21) {
+                resultElement.innerText = `Hai superato il test! Punteggio: ${score}/30`;
+                resultElement.style.color = '#00ff00';
+            } else {
+                resultElement.innerText = `Torna a studiare! Punteggio: ${score}/30`;
+                resultElement.style.color = '#ff0000';
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            timeLeft = 30 * 60;
+            document.getElementById('quiz-timer').style.display = 'block';
+            document.getElementById('quiz-timer').innerText = 'Tempo rimanente: 30:00';
+            document.getElementById('quiz-balls').style.display = 'flex';
+            document.querySelectorAll('.quiz-ball').forEach(ball => {
+                ball.classList.remove('correct');
+                ball.classList.remove('incorrect');
+            });
+            currentQuestions = shuffleArray([...allQuestions[currentQuiz]]);
+            clearInterval(timerInterval);
+            startTimer();
+            loadQuizQuestion();
+        }
+
+        document.getElementById('retry-button').addEventListener('click', resetQuiz);
+    </script>
+</body>
+</html>
